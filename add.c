@@ -8,17 +8,17 @@ int addbook(void)
     int count;
    
     
-    printf("请输入书名：");
+    printf("璇疯緭鍏ヤ功鍚嶏細");
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = 0;
-    printf("请输入类别：");
+    printf("璇疯緭鍏ョ被鍒細");
     fgets(leibie, sizeof(leibie), stdin);
     leibie[strcspn(leibie, "\n")] = 0;
-    printf("请输入数量：");
+    printf("璇疯緭鍏ユ暟閲忥細");
     scanf("%d", &count);
     FILE *fp = fopen("book.txt", "a");
     fprintf(fp, "\n%s %s %d\n", name, leibie, count);
     fclose(fp);
-    printf("添加成功！\n");
+    printf("娣诲姞鎴愬姛锛乗n");
     return 0;
 }
