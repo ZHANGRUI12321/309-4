@@ -19,15 +19,19 @@ void printBooksByBorrowCount()
     int temp_borrow; // 临时接收“已经借阅”的数字
     
     // 严格按照带中文标签的长格式读取
-    while (fgets(line, sizeof(line), fp) != NULL && count < 100)
+        while (fgets(line, sizeof(line), fp) != NULL && count < 100)
     {
         if (strlen(line) < 5) continue; // 跳过空行
         
-        if (sscanf(line, "索引：%s 书名：%s 类别：%s 总数：%d 已经借阅：%d 剩余：%d 借阅次数：%d",
-                   books[count].id, books[count].name, books[count].leibie,
-                   &books[count].totalCopies, &temp_borrow, 
-                   &books[count].availableCopies, &books[count].borrowCount) == 7)
-        {
+        // 更聪明的读取方式，不强制要求全角冒号
+        char *pName = strstr(line, "书名");
+        char *pCat = strstr(line, "类别");
+        char *pBorrow = strstr(line, "借阅次数");
+
+        if (pName && pCat && pBorrow) {
+            sscanf(pName + strlen("书名"), "%*[：:] %s", books[count].name);
+            sscanf(pCat + strlen("类别"), "%*[：:] %s", books[count].leibie);
+            sscanf(pBorrow + strlen("借阅次数"), "%*[：:] %d", &books[count].borrowCount);
             count++;
         }
     }
