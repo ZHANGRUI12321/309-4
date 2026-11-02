@@ -36,7 +36,7 @@ void borrow()
            scanf("%s\n",borrowtime);
            while(strlen(borrowtime)!=10 || borrowtime[4]!='-' || borrowtime[7]!='-')
            {
-            printf("你的日期格式输入错误,严格按照2026-11-01来写");
+            printf("你的日期格式输入错误,严格按照2026-11-01来写:");
             scanf("%s\n",borrowtime);
            }
         }
@@ -44,23 +44,14 @@ void borrow()
         {
             return;
         }  
-        FILE *fp;
-        fp=fopen("borrow.txt","a+");
-        if(fp==NULL)
-        {
-            printf("文件打开失败");
-            return;
-        }
-        fprintf(fp,"%s %s %s,%s\n",bookname,peoplename,borrowtime,guihuantime);  //写入借阅txt文件，包括，书名，借阅人和借阅日期
-        fclose(fp);
-        updatebook(bookname, -borrowcount);  //更新图书数量
+        saveborrow(bookname,peoplename,borrowtime,guihuantime);           //写入借阅的borrow.txt文件
     }
  
 }
 void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime)
 {
     int havetime=0;
-    havetime=guihuantime-borrowtime;
+    havetime=dateculculate(borrowtime,guihuantime);
     FILE *fp;
     fp=fopen("borrow.txt","a+");
     if (fp==NULL)
