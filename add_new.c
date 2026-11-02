@@ -29,7 +29,7 @@ void add_new_book(void)
     // 生成带 XL- 前缀的编号，比如 XL-B006
     sprintf(id, "XL-B%03d", book_count + 1);
 
-    // 2. 用户输入 (使用 fgets 防止回车残留和跳过输入)
+    // 2. 用户输入
     printf("\n--- 添加新书 ---\n");
     
     printf("请输入书名: ");
@@ -55,7 +55,7 @@ void add_new_book(void)
         return;
     }
 
-    // 【核心修改】严格按照你要求的长格式写入，并保存
+    // 严格按照长格式写入，并保存
     fprintf(fp_write, "索引：%s 书名：%s 类别：%s 总数：%d 已经借阅：%d 剩余：%d 借阅次数：%d\n", 
             id, name, leibie, total, 0, available, borrow);
             

@@ -2,20 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sort.h"
+#include "book.h" // 使用公共结构体，千万不要再自己定义一遍
 
-// 为了不让 main.c 报错，把结构体搬到这里定义
-typedef struct
-{
-    char id[20];         
-    char name[100];      
-    char leibie[50];     
-    int totalCopies;     
-    int availableCopies; 
-    int borrowCount;     
-} Book;
-
-
-// 下面是 printBooksByBorrowCount 的完整实现
 void printBooksByBorrowCount()
 {
     FILE *fp = fopen("book.txt", "r");
@@ -27,19 +15,27 @@ void printBooksByBorrowCount()
 
     Book books[100]; // 假设最多100本书
     int count = 0;
+    char line[512];
+    int temp_borrow; // 临时接收“已经借阅”的数字
     
-    // 从文件中读取数据 (格式需与 add.c 中写入的一致：姓名 类别 次数)
-    // 注意：这里假设你的 add.c 里写入的只有这三个字段，如果没有 ID 等，这里只需读这三个
-    // 如果你的 txt 里存的是完整结构，需要按对应格式读取
-    while (fscanf(fp, "%s %s %d", books[count].name, books[count].leibie, &books[count].borrowCount) != EOF)
+    // 严格按照带中文标签的长格式读取
+    while (fgets(line, sizeof(line), fp) != NULL && count < 100)
     {
-        count++;
+        if (strlen(line) < 5) continue; // 跳过空行
+        
+        if (sscanf(line, "索引：%s 书名：%s 类别：%s 总数：%d 已经借阅：%d 剩余：%d 借阅次数：%d",
+                   books[count].id, books[count].name, books[count].leibie,
+                   &books[count].totalCopies, &temp_borrow, 
+                   &books[count].availableCopies, &books[count].borrowCount) == 7)
+        {
+            count++;
+        }
     }
     fclose(fp);
 
     if (count == 0)
     {
-        printf("数据为空。\n");
+        printf("数据为空，或格式读取失败。\n");
         return;
     }
 
@@ -57,11 +53,21 @@ void printBooksByBorrowCount()
         }
     }
 
-    // 打印结果
-    printf("%-20s %-15s %-10s\n", "书名", "类别", "借阅次数");
-    printf("---------------------------------------------\n");
+    // 打印结果：包含索引号、书名、类别、总数、已借阅、剩余、借阅次数
+    printf("%-12s %-20s %-12s %-8s %-8s %-8s %-8s\n", "索引号", "书名", "类别", "总数", "已借阅", "剩余", "借阅次数");
+    printf("----------------------------------------------------------------------------------------\n");
     for (int i = 0; i < count; i++)
     {
-        printf("%-20s %-15s %-10d\n", books[i].name, books[i].leibie, books[i].borrowCount);
+        // 已经借阅 = 总数 - 当前可借数量
+        int borrowed = books[i].totalCopies - books[i].availableCopies;
+        
+        printf("%-12s %-20s %-12s %-8d %-8d %-8d %-8d\n", 
+               books[i].id, 
+               books[i].name, 
+               books[i].leibie, 
+               books[i].totalCopies, 
+               borrowed, 
+               books[i].availableCopies, 
+               books[i].borrowCount);
     }
 }
