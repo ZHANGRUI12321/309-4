@@ -1,55 +1,55 @@
 #include <stdio.h>
 #include <time.h>
-#include <string.h>          //ºóÃæµÄstrlenĞèÒªÓÃµ½
-#define max_havetime 30        //¹æ¶¨½èÔÄÊ±¼äÉÏÏŞÊÇ30Ìì
-int lookname(char *bookname);  //Õâ¸öº¯Êı×¨ÃÅ¸ù¾İÊéÃû²éÊÇ·ñÓĞÕâ±¾Êé£¬Èç¹ûÓĞ£¬·µ»Ø1£¬Èç¹ûÃ»ÓĞ£¬·µ»Ø0
-int lookcount(char *bookname);  //Õâ¸öº¯Êı×¨ÃÅ¸ù¾İÊéÃû²éÕâ±¾ÊéµÄ¿É½èÊıÁ¿£¬Èç¹ûÓĞ£¬·µ»ØÊıÁ¿£¬Èç¹ûÃ»ÓĞ£¬·µ»Ø0
-void updatebook(char *bookname,int change);        //¹¦ÄÜ£ºÕâ¸öÊÇĞŞ¸Äbook.txtÎÄ¼ş
-void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);      //±£´æ½èÔÄ¼ÇÂ¼µÄº¯Êı
-int dateculculate(char *borrowtime,char *guihuantime);  //´«ÈëÆğÊ¼Ê±¼äºÍ×îÖÕÊ±¼ä£¬Õâ¸öº¯Êı¿ÉÒÔ¼ÆËã³ö¾­¹ıµÄÌìÊı
-char *jisuan_guihuantime(char *borrowtime);  //Õâ¸öº¯ÊıÊÇ¸ù¾İ½èÔÄÊ±¼ä¼ÆËã¹é»¹Ê±¼ä£¬¹é»¹Ê±¼äÊÇ½èÔÄÊ±¼ä¼ÓÉÏ30Ìì
+#include <string.h>          //åé¢çš„strlenéœ€è¦ç”¨åˆ°
+#define max_havetime 30        //è§„å®šå€Ÿé˜…æ—¶é—´ä¸Šé™æ˜¯30å¤©
+int lookname(char *bookname);  //è¿™ä¸ªå‡½æ•°ä¸“é—¨æ ¹æ®ä¹¦åæŸ¥æ˜¯å¦æœ‰è¿™æœ¬ä¹¦ï¼Œå¦‚æœæœ‰ï¼Œè¿”å›1ï¼Œå¦‚æœæ²¡æœ‰ï¼Œè¿”å›0
+int lookcount(char *bookname);  //è¿™ä¸ªå‡½æ•°ä¸“é—¨æ ¹æ®ä¹¦åæŸ¥è¿™æœ¬ä¹¦çš„å¯å€Ÿæ•°é‡ï¼Œå¦‚æœæœ‰ï¼Œè¿”å›æ•°é‡ï¼Œå¦‚æœæ²¡æœ‰ï¼Œè¿”å›0
+void updatebook(char *bookname,int change);        //åŠŸèƒ½ï¼šè¿™ä¸ªæ˜¯ä¿®æ”¹book.txtæ–‡ä»¶
+void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);      //ä¿å­˜å€Ÿé˜…è®°å½•çš„å‡½æ•°
+int dateculculate(char *borrowtime,char *guihuantime);  //ä¼ å…¥èµ·å§‹æ—¶é—´å’Œæœ€ç»ˆæ—¶é—´ï¼Œè¿™ä¸ªå‡½æ•°å¯ä»¥è®¡ç®—å‡ºç»è¿‡çš„å¤©æ•°
+char *jisuan_guihuantime(char *borrowtime);  //è¿™ä¸ªå‡½æ•°æ˜¯æ ¹æ®å€Ÿé˜…æ—¶é—´è®¡ç®—å½’è¿˜æ—¶é—´ï¼Œå½’è¿˜æ—¶é—´æ˜¯å€Ÿé˜…æ—¶é—´åŠ ä¸Š30å¤©
 void borrow()
 {
     char choose;
     char bookname[100]; int borrowcount; char peoplename[100];char borrowtime[15];char guihuantime[100];
-    printf("ÇëÊäÈë½èÔÄÊéÃû£º");
+    printf("è¯·è¾“å…¥å€Ÿé˜…ä¹¦åï¼š");
     scanf("%s", bookname);
     if(lookname(bookname)==0)
     {
-        printf("¸ÃÊé²»´æÔÚ,ÎŞ·¨½èÔÄ");
+        printf("è¯¥ä¹¦ä¸å­˜åœ¨,æ— æ³•å€Ÿé˜…");
         return;
     }
     else if(lookcount(bookname)==0)
     {
-        printf("¸ÃÊéÒÑ¾­±»½èÍêÀ²,ÎŞ·¨½èÔÄ");
+        printf("è¯¥ä¹¦å·²ç»è¢«å€Ÿå®Œå•¦,æ— æ³•å€Ÿé˜…");
         return;
     }
     else
     {
-        printf("¿É½èÔÄÊıÁ¿Îª£º%d\n",lookcount(bookname));
-        printf("ÊÇ·ñ½èÔÄ?(y/n): ");
+        printf("å¯å€Ÿé˜…æ•°é‡ä¸ºï¼š%d\n",lookcount(bookname));
+        printf("æ˜¯å¦å€Ÿé˜…?(y/n): ");
         scanf(" %c", &choose);
-        if(choose=='y')           //×Ö·û´®ÓÃË«ÒıºÅ£¬µ¥¸ö×Ö·ûÓÃµ¥ÒıºÅ
+        if(choose=='y')           //å­—ç¬¦ä¸²ç”¨åŒå¼•å·ï¼Œå•ä¸ªå­—ç¬¦ç”¨å•å¼•å·
         {
-           printf("ÇëÊäÈë½èÔÄÊıÁ¿£º");
+           printf("è¯·è¾“å…¥å€Ÿé˜…æ•°é‡ï¼š");
            scanf("%d\n",&borrowcount);
-           printf("ÇëÊäÈë½èÔÄÈËĞÕÃû£º");
+           printf("è¯·è¾“å…¥å€Ÿé˜…äººå§“åï¼š");
            scanf("%s\n",peoplename);
-           printf("ÇëÊäÈë½èÔÄÈÕÆÚ£»(¸ñÊ½;2026-11-01)");        //¾¡Á¿°´ÕÕÕâ¸öÈÕÆÚ¸ñÊ½
+           printf("è¯·è¾“å…¥å€Ÿé˜…æ—¥æœŸï¼›(æ ¼å¼;2026-11-01)");        //å°½é‡æŒ‰ç…§è¿™ä¸ªæ—¥æœŸæ ¼å¼
            scanf("%s\n",borrowtime);
            while(strlen(borrowtime)!=10 || borrowtime[4]!='-' || borrowtime[7]!='-')
            {
-            printf("ÄãµÄÈÕÆÚ¸ñÊ½ÊäÈë´íÎó,ÑÏ¸ñ°´ÕÕ2026-11-01À´Ğ´:");
+            printf("ä½ çš„æ—¥æœŸæ ¼å¼è¾“å…¥é”™è¯¯,ä¸¥æ ¼æŒ‰ç…§2026-11-01æ¥å†™:");
             scanf("%s\n",borrowtime);
            }
-           strcpy(guihuantime,jisuan_guihuantime(borrowtime));        //strcpy(A,B)½«BµÄÄÚÈİ¸´ÖÆµ½AÖĞ
-           printf("¹é»¹ÈÕÆÚÎª£º%s\n",guihuantime);
+           strcpy(guihuantime,jisuan_guihuantime(borrowtime));        //strcpy(A,B)å°†Bçš„å†…å®¹å¤åˆ¶åˆ°Aä¸­
+           printf("å½’è¿˜æ—¥æœŸä¸ºï¼š%s\n",guihuantime);
         }
         else
         {
             return;
         }  
-        saveborrow(bookname,peoplename,borrowtime,guihuantime);           //Ğ´Èë½èÔÄµÄborrow.txtÎÄ¼ş
+        saveborrow(bookname,peoplename,borrowtime,guihuantime);           //å†™å…¥å€Ÿé˜…çš„borrow.txtæ–‡ä»¶
     }
  
 }
@@ -58,14 +58,14 @@ void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuanti
     int havetime=0;
     havetime=dateculculate(borrowtime,guihuantime);
     FILE *fp;
-    fp=fopen("borrow.txt","a+");
+    fp=fopen("borrow.txt","a");
     if (fp==NULL)
     {
-        printf("ÎÄ¼ş´ò¿ªÊ§°Ü");
+        printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥");
         return;
     }
     fprintf(fp,"%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
-    printf("ÒÑ±£´æ½èÔÄ¼ÇÂ¼£º%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
+    printf("å·²ä¿å­˜å€Ÿé˜…è®°å½•ï¼š%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
     fclose(fp);
 }
 int dateculculate(char *borrowtime,char *guihuantime)
@@ -74,19 +74,19 @@ int dateculculate(char *borrowtime,char *guihuantime)
     struct tm a={0};
     struct tm b={0};
     sscanf(borrowtime,"%d-%d-%d",&year1,&month1,&date1);
-    sscanf(guihuantime,"%d-%d-%d",&year2,&month2,&date2);       //sscanf()ÊÇ½«×Ö·û´®ÌáÈ¡ÀïÃæµÃÊı×ÖÀàĞÍÊı¾İ
+    sscanf(guihuantime,"%d-%d-%d",&year2,&month2,&date2);       //sscanf()æ˜¯å°†å­—ç¬¦ä¸²æå–é‡Œé¢å¾—æ•°å­—ç±»å‹æ•°æ®
     a.tm_year=year1-1900;   
     a.tm_mon=month1-1;
     a.tm_mday=date1;
     b.tm_year=year2-1900;
-    b.tm_mon=month2-1;                            //tm½á¹¹ÌåÊÇ½«Ö®Ç°ÌáÈ¡µÃÊı×ÖÀàĞÍµÃÊı¾İ¸³ÓèËûÃÇÊ±¼äº¬Òå
+    b.tm_mon=month2-1;                            //tmç»“æ„ä½“æ˜¯å°†ä¹‹å‰æå–å¾—æ•°å­—ç±»å‹å¾—æ•°æ®èµ‹äºˆä»–ä»¬æ—¶é—´å«ä¹‰
     b.tm_mday=date2;
-    time_t a1=mktime(&a);                    //mktime()º¯ÊıÊÇ½«½á¹¹Ìåtm×ª»»ÎªÊ±¼ä´Á£¨Ò²¾ÍÊÇÒ»¸öÊı×ÖÀ´½øĞĞ¼ÆËã£©
+    time_t a1=mktime(&a);                    //mktime()å‡½æ•°æ˜¯å°†ç»“æ„ä½“tmè½¬æ¢ä¸ºæ—¶é—´æˆ³ï¼ˆä¹Ÿå°±æ˜¯ä¸€ä¸ªæ•°å­—æ¥è¿›è¡Œè®¡ç®—ï¼‰
     time_t b1=mktime(&b);
-    return (int)difftime(b1,a1)/86400;       //Ò»ÌìÓĞ86400Ãë
+    return (int)difftime(b1,a1)/86400;       //ä¸€å¤©æœ‰86400ç§’
 
 }
-char *jisuan_guihuantime(char *borrowtime)                //¹æ¶¨¹é»¹Ê±¼äÉÏÏŞÊÇ30Ìì°É,Õâ¸öº¯Êı¾ÍÊÇdateculculate()µÄÄæÔËËã£¬´«Èë½èÔÄÊ±¼ä£¬·µ»Ø¹é»¹Ê±¼ä
+char *jisuan_guihuantime(char *borrowtime)                //è§„å®šå½’è¿˜æ—¶é—´ä¸Šé™æ˜¯30å¤©å§,è¿™ä¸ªå‡½æ•°å°±æ˜¯dateculculate()çš„é€†è¿ç®—ï¼Œä¼ å…¥å€Ÿé˜…æ—¶é—´ï¼Œè¿”å›å½’è¿˜æ—¶é—´
 {
     static  char guihuantime[100];
     struct tm a={0};
