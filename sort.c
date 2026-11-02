@@ -1,7 +1,5 @@
-// sort.c
-#include "sort.h" // 必须包含这个头文件，才能认识 Book 结构体
+#include "sort.h"
 
-// 这里写具体的排序逻辑，注意：不加 int main() 了！
 void sortByBorrowCount(Book books[], int book_count) 
 {
     Book temp; 
