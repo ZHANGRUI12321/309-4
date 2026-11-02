@@ -2,13 +2,13 @@
 #include <time.h>
 #include <string.h>          //后面的strlen需要用到
 #define max_havetime 30        //规定借阅时间上限是30天
-//int lookname(char *bookname);  //这个函数专门根据书名查是否有这本书，如果有，返回1，如果没有，返回0
-//int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
-//void updatebook(char *bookname,int change);        //功能：这个是修改book.txt文件
-//void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);      //保存借阅记录的函数
+int lookname(char *bookname);  //这个函数专门根据书名查是否有这本书，如果有，返回1，如果没有，返回0
+int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
+void updatebook(char *bookname,int change);        //功能：这个是修改book.txt文件
+void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);      //保存借阅记录的函数
 int dateculculate(char *borrowtime,char *guihuantime);  //传入起始时间和最终时间，这个函数可以计算出经过的天数
 char *jisuan_guihuantime(char *borrowtime);  //这个函数是根据借阅时间计算归还时间，归还时间是借阅时间加上30天
-/*void borrow()
+void borrow()
 {
     char choose;
     char bookname[100]; int borrowcount; char peoplename[100];char borrowtime[15];char guihuantime[100];
@@ -65,8 +65,9 @@ void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuanti
         return;
     }
     fprintf(fp,"%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
+    printf("已保存借阅记录：%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
     fclose(fp);
-}*/
+}
 int dateculculate(char *borrowtime,char *guihuantime)
 {
     int year1,month1,date1,year2,month2,date2;
@@ -98,4 +99,10 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间上限是30
     mktime(&a);
     sprintf(guihuantime,"%04d-%02d-%02d",a.tm_year+1900,a.tm_mon+1,a.tm_mday);
     return guihuantime;
+}
+void updatebook(char *bookname,int change)
+{
+    FILE *fp;
+    fp=fopen("book.txt","")
+
 }
