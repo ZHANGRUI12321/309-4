@@ -1,8 +1,12 @@
 #include <stdio.h>
 int lookname(char *bookname);  //这个函数专门根据书名查是否有这本书，如果有，返回1，如果没有，返回0
 int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
-void borrow(char *bookname, int *borrowcount, char *peoplename,char *borrowtime)
+void borrow()
 {
+    char choose;
+    char bookname[100]; int borrowcount; char peoplename[100];char borrowtime[15];char guihuantime[100];
+    printf("请输入借阅书名：");
+    scanf("%s", bookname);
     if(lookname(bookname)==0)
     {
         printf("该书不存在,无法借阅");
@@ -15,6 +19,22 @@ void borrow(char *bookname, int *borrowcount, char *peoplename,char *borrowtime)
     }
     else
     {
+        printf("可借阅数量为：%d\n",lookcount(bookname));
+        printf("是否借阅?(y/n): ");
+        scanf(" %c", &choose);
+        if(choose=='y')           //字符串用双引号，单个字符用单引号
+        {
+           printf("请输入借阅数量：");
+           scanf("%d\n",&borrowcount);
+           printf("请输入借阅人姓名：");
+           scanf("%s\n",peoplename);
+           printf("请输入借阅日期；(格式;2026-11-01)");        //尽量按照这个日期格式
+           scanf("%s\n",borrowtime);
+        }
+        else
+        {
+            return;
+        }  
         FILE *fp;
         fp=fopen("borrow.txt","a+");
         if(fp==NULL)
@@ -22,7 +42,7 @@ void borrow(char *bookname, int *borrowcount, char *peoplename,char *borrowtime)
             printf("文件打开失败");
             return;
         }
-        fprintf(fp,"%s %s %s\n",bookname,peoplename,borrowtime);  //写入借阅txt文件，包括，书名，借阅人和借阅日期
+        fprintf(fp,"%s %s %s,%s\n",bookname,peoplename,borrowtime,guihuantime);  //写入借阅txt文件，包括，书名，借阅人和借阅日期
         fclose(fp);
     }
  
