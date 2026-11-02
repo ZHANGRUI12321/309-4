@@ -13,7 +13,7 @@ typedef struct
 
 int main()
 {
-    
+    printBooksByBorrowCount();
     
     return 0;
 };
