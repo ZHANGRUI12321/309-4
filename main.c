@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "sort.h" 
 #include "add.h"
+#include "borrow.h"
 typedef struct
 {
     char id[20];         // Õº È±‡∫≈
@@ -15,7 +16,7 @@ int main()
 {
     
 
-    addbook();
-    
+    printf("%s\n",jisuan_guihuantime("2026-12-11"));
+    printf("%d",dateculculate("2026-12-11","2027-01-10"));
     return 0;
 };
