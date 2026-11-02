@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "add_new.h"
+#include "book.h"
 
 void add_new_book(void)
 {
@@ -9,46 +11,55 @@ void add_new_book(void)
     char leibie[50];
     int total;
     int available;
-    int borrow = 0; // ???????????0
+    int borrow = 0; // 新书初始借阅次数为 0
 
-    // 1. ???????
+    // 1. 自动生成索引号
     int book_count = 0;
     FILE *fp_read = fopen("book.txt", "r");
     if (fp_read != NULL) {
         char buffer[256];
         while (fgets(buffer, sizeof(buffer), fp_read) != NULL) {
-            if (strlen(buffer) > 1) { // ????
+            if (strlen(buffer) > 5) { // 排除空行
                 book_count++;
             }
         }
         fclose(fp_read);
     }
     
-    // ?????? B001, B002...
-    sprintf(id, "B%03d", book_count + 1);
+    // 生成带 XL- 前缀的编号，比如 XL-B006
+    sprintf(id, "XL-B%03d", book_count + 1);
 
-    // 2. ????
-    printf("\n--- ???? ---\n");
-    printf("?????: ");
-    scanf("%s", name); // ??????????
-    printf("?????: ");
-    scanf("%s", leibie);
-    printf("??????: ");
-    scanf("%d", &total);
+    // 2. 用户输入 (使用 fgets 防止回车残留和跳过输入)
+    printf("\n--- 添加新书 ---\n");
+    
+    printf("请输入书名: ");
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = 0; // 清除换行符
 
-    // 3. ????
-    available = total; // ???? = ???
+    printf("请输入类别: ");
+    fgets(leibie, sizeof(leibie), stdin);
+    leibie[strcspn(leibie, "\n")] = 0; // 清除换行符
 
-    // 4. ????
+    printf("请输入总数: ");
+    char totalStr[20];
+    fgets(totalStr, sizeof(totalStr), stdin);
+    total = atoi(totalStr); // 字符串转整数
+
+    // 3. 自动计算
+    available = total; // 可借数量 = 总数量
+
+    // 4. 写入文件
     FILE *fp_write = fopen("book.txt", "a");
     if (fp_write == NULL) {
-        printf("???????\n");
+        printf("文件打开失败！\n");
         return;
     }
 
-    // ?? 6 ????????????
-    fprintf(fp_write, "%s %s %s %d %d %d\n", id, name, leibie, total, available, borrow);
+    // 【核心修改】严格按照你要求的长格式写入，并保存
+    fprintf(fp_write, "索引：%s 书名：%s 类别：%s 总数：%d 已经借阅：%d 剩余：%d 借阅次数：%d\n", 
+            id, name, leibie, total, 0, available, borrow);
+            
     fclose(fp_write);
 
-    printf("\n?????????????: %s\n", id);
+    printf("\n添加成功！系统自动分配编号: %s\n", id);
 }
