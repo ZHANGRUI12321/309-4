@@ -50,3 +50,17 @@ void borrow()
     }
  
 }
+void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime)
+{
+    int havetime=0;
+    havetime=guihuantime-borrowtime;
+    FILE *fp;
+    fp=fopen("borrow.txt","a+");
+    if (fp==NULL)
+    {
+        printf("文件打开失败");
+        return;
+    }
+    fprintf(fp,"%s  %s  %s %s %s\n",bookname,peoplename,borrowtime,guihuantime,);
+    fclose(fp);
+}
