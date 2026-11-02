@@ -65,6 +65,7 @@ void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuanti
         return;
     }
     fprintf(fp,"%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
+    printf("已保存借阅记录：%s  %s  %s %s %d\n",bookname,peoplename,borrowtime,guihuantime,havetime);
     fclose(fp);
 }
 int dateculculate(char *borrowtime,char *guihuantime)
@@ -98,4 +99,10 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间上限是30
     mktime(&a);
     sprintf(guihuantime,"%04d-%02d-%02d",a.tm_year+1900,a.tm_mon+1,a.tm_mday);
     return guihuantime;
+}
+void updatebook(char *bookname,int change)
+{
+    FILE *fp;
+    fp=fopen("book.txt","")
+
 }

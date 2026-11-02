@@ -5,7 +5,7 @@ void main()
     fp=fopen("book.txt","r");
     if(fp==NULL)
     {
-        printf("鏂囦欢鎵撳紑澶辫触\n");
+        printf("文件打开失败\n");
         return;
     }
     char line[512];
