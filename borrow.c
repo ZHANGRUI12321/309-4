@@ -22,7 +22,7 @@ void borrow()
     }
     else if(lookcount(bookname)==0)
     {
-        printf("该书已经被借完啦,无法借阅");
+        printf("该书已被借完,无法借阅\n");
         return;
     }
     else
@@ -116,16 +116,18 @@ void updatebook(char *bookname,int change)   //change 为正的话代表借出�
     while(fgets(line,sizeof(line),fp)!=NULL)
     {
         sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
-    }
-    if(strcmp(b.name,bookname)==0)
+          if(strcmp(b.name,bookname)==0)
     {
         b.availableCopies-=change;
         b.borrowCount+=change;
     }
+    }
+  
 
 }
 int lookname(char *bookname)
 {
+    Book b;
     FILE *fp;char line[512];
     fp=fopen("book.txt","r");
     if(fp==NULL)
@@ -133,8 +135,33 @@ int lookname(char *bookname)
         printf("文件打开失败");
         return 0;
     }
-    if()
-    
+    if(fgets(line,sizeof(line),fp)!=NULL)
+    {
+        sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
+          if(strcmp(b.name,bookname)==0)
+    {
+        return 1;
+    }
+    }
+}
 
-    strcamp(bookname,)
+
+int lookcount(char *bookname)
+{
+    Book b;
+    FILE *fp;char line[512];
+    fp=fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        printf("文件打开失败");
+        return 0;
+    }
+    if(fgets(line,sizeof(line),fp)!=NULL)
+    {
+        sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
+          if(strcmp(b.name,bookname)==0)
+    {
+        return b.borrowCount;
+    }
+    }
 }
