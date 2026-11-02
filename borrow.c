@@ -32,16 +32,16 @@ void borrow()
         scanf(" %c", &choose);
         if(choose=='y')           //字符串用双引号，单个字符用单引号
         {
-           printf("请输入借阅数量：");
-           scanf("%d\n",&borrowcount);
-           printf("请输入借阅人姓名：");
-           scanf("%s\n",peoplename);
-           printf("请输入借阅日期；(格式;2026-11-01)");        //尽量按照这个日期格式
-           scanf("%s\n",borrowtime);
+           printf("请输入借阅数量：\n");
+           scanf("%d",&borrowcount);
+           printf("请输入借阅人姓名：\n");
+           scanf("%s",peoplename);
+           printf("请输入借阅日期；(格式：2026-11-01)\n");        //尽量按照这个日期格式
+           scanf("%s",borrowtime);
            while(strlen(borrowtime)!=10 || borrowtime[4]!='-' || borrowtime[7]!='-')
            {
             printf("你的日期格式输入错误,严格按照2026-11-01来写:");
-            scanf("%s\n",borrowtime);
+            scanf("%s",borrowtime);
            }
            strcpy(guihuantime,jisuan_guihuantime(borrowtime));        //strcpy(A,B)将B的内容复制到A中
            printf("归还日期为：%s\n",guihuantime);
