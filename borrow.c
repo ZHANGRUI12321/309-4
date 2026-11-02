@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>          //后面的strlen需要用到
+#include "book.h"
 #define max_havetime 30        //规定借阅时间上限是30天
 int lookname(char *bookname);  //这个函数专门根据书名查是否有这本书，如果有，返回1，如果没有，返回0
 int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
@@ -50,6 +51,7 @@ void borrow()
             return;
         }  
         saveborrow(bookname,peoplename,borrowtime,guihuantime);           //写入借阅的borrow.txt文件
+        updatebook(bookname,borrowcount);
     }
  
 }
@@ -100,9 +102,39 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间�
     sprintf(guihuantime,"%04d-%02d-%02d",a.tm_year+1900,a.tm_mon+1,a.tm_mday);
     return guihuantime;
 }
-void updatebook(char *bookname,int change)
+void updatebook(char *bookname,int change)   //change 为正的话代表借出去
 {
+    Book b;
     FILE *fp;
-    fp=fopen("book.txt","");
+    char line[512];
+    fp=fopen("book.txt","r+");
+    if(fp==NULL)
+    {
+        printf("文件打开失败");
+        return;
+    }
+    while(fgets(line,sizeof(line),fp)!=NULL)
+    {
+        sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
+    }
+    if(strcmp(b.name,bookname)==0)
+    {
+        b.availableCopies-=change;
+        b.borrowCount+=change;
+    }
 
+}
+int lookname(char *bookname)
+{
+    FILE *fp;char line[512];
+    fp=fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        printf("文件打开失败");
+        return 0;
+    }
+    if()
+    
+
+    strcamp(bookname,)
 }
