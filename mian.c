@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "sort.h" 
-#include "add_new.h"
-
+#include "add.h"
 typedef struct
 {
     char id[20];         // 图书编号
