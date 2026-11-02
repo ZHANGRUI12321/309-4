@@ -7,5 +7,7 @@ typedef struct
     int totalCopies;        // 图书总数量
     int availableCopies;    // 当前可借数量
     int borrowCount;        // 历史借阅次数
-    int qingkuang;          // 已借或未借  
 } Book;
+int main()
+{
+};
