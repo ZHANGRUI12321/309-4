@@ -3,21 +3,19 @@
 #include "add.h"
 typedef struct
 {
-    char id[20];         // å›¾ä¹¦ç¼–å·
-    char name[100];      // å›¾ä¹¦åç§°
-    char leibie[50];     // å›¾ä¹¦ç±»åˆ«
-    int totalCopies;     // å›¾ä¹¦æ€»æ•°é‡
-    int availableCopies; // å½“å‰å¯å€Ÿæ•°é‡
-    int borrowCount;     // å†å²å€Ÿé˜…æ¬¡æ•°
+    char id[20];         // Í¼Êé±àºÅ
+    char name[100];      // Í¼ÊéÃû³Æ
+    char leibie[50];     // Í¼ÊéÀà±ğ
+    int totalCopies;     // Í¼Êé×ÜÊıÁ¿
+    int availableCopies; // µ±Ç°¿É½èÊıÁ¿
+    int borrowCount;     // ÀúÊ·½èÔÄ´ÎÊı
 } Book;
 
 int main()
 {
-    printf("--- æµ‹è¯•æ·»åŠ åŠŸèƒ½ ---\n");
-    add_new_book(); // æµ‹è¯•æ·»åŠ 
+    
 
-    printf("\n--- æµ‹è¯•æ’åºæ‰“å°åŠŸèƒ½ ---\n");
-    printBooksByBorrowCount(); // æµ‹è¯•æ’åºæ‰“å°
+    addbook();
     
     return 0;
 };

@@ -5,6 +5,7 @@ int lookcount(char *bookname);  //这个函数专门根据书名查这本书的�
 void updatebook(char *bookname,int change);        //功能：这个是修改book.txt文件
 void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);      //保存借阅记录的函数
 int dateculculate(char *borrowtime,char *guihuantime);  //传入起始时间和最终时间，这个函数可以计算出经过的天数
+char jisuan_guihuantime(char *borrowtime);  //这个函数是根据借阅时间计算归还时间，归还时间是借阅时间加上30天
 void borrow()
 {
     char choose;
@@ -39,6 +40,8 @@ void borrow()
             printf("你的日期格式输入错误,严格按照2026-11-01来写:");
             scanf("%s\n",borrowtime);
            }
+           strcpy(guihuantime,jisuan_guihuantime(borrowtime));        //strcpy(A,B)将B的内容复制到A中
+           printf("归还日期为：%s\n",guihuantime);
         }
         else
         {
@@ -65,9 +68,18 @@ void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuanti
 int dateculculate(char *borrowtime,char *guihuantime)
 {
     int year1,month1,date1,year2,month2,date2;
-    struct tm date={0};
+    struct tm a={0};
+    struct tm b={0};
     sscanf(borrowtime,"%d-%d-%d",&year1,&month1,&date1);
-    sscanf(guihuantime,"%d-%d-%d",&year2,&month2,&date2);
-    
+    sscanf(guihuantime,"%d-%d-%d",&year2,&month2,&date2);       //sscanf()是将字符串提取里面得数字类型数据
+    a.tm_year=year1-1900;   
+    a.tm_mon=month1-1;
+    a.tm_mday=date1;
+    b.tm_year=year2-1900;
+    b.tm_mon=month2-1;                            //tm结构体是将之前提取得数字类型得数据赋予他们时间含义
+    b.tm_mday=date2;
+    time_t a1=mktime(&a);                    //mktime()函数是将结构体tm转换为时间戳（也就是一个数字来进行计算）
+    time_t b1=mktime(&b);
+    return (int)difftime(b1,a1)/86400;       //一天有86400秒
 
 }
