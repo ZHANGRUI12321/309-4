@@ -103,6 +103,6 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间�
 void updatebook(char *bookname,int change)
 {
     FILE *fp;
-    fp=fopen("book.txt","")
+    fp=fopen("book.txt","");
 
 }
