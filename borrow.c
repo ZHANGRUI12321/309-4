@@ -1,6 +1,8 @@
 #include <stdio.h>
 int lookname(char *bookname);  //这个函数专门根据书名查是否有这本书，如果有，返回1，如果没有，返回0
 int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
+void updatebook(char *bookname,int change);        //功能：这个是修改book.txt文件
+void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);
 void borrow()
 {
     char choose;
@@ -44,6 +46,7 @@ void borrow()
         }
         fprintf(fp,"%s %s %s,%s\n",bookname,peoplename,borrowtime,guihuantime);  //写入借阅txt文件，包括，书名，借阅人和借阅日期
         fclose(fp);
+        updatebook(bookname, -borrowcount);  //更新图书数量
     }
  
 }
