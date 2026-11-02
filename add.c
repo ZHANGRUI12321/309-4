@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+#include "book.h"
 int addbook(void)
 {
     char name[100];
@@ -22,3 +22,10 @@ int addbook(void)
     printf("添加成功！\n");
     return 0;
 }
+
+
+
+/*int main() {
+    addbook();
+    return 0;
+}*/
