@@ -3,6 +3,7 @@ int lookname(char *bookname);  //这个函数专门根据书名查是否有这�
 int lookcount(char *bookname);  //这个函数专门根据书名查这本书的可借数量，如果有，返回数量，如果没有，返回0
 void updatebook(char *bookname,int change);        //功能：这个是修改book.txt文件
 void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuantime);
+int dateculculate(char *borrowtime,char *guihuantime);  //传入起始时间和最终时间，这个函数可以计算出经过的天数
 void borrow()
 {
     char choose;
@@ -63,4 +64,8 @@ void saveborrow(char *bookname,char *peoplename,char *borrowtime,char *guihuanti
     }
     fprintf(fp,"%s  %s  %s %s %s\n",bookname,peoplename,borrowtime,guihuantime,);
     fclose(fp);
+}
+int dateculculate(char *borrowtime,char *guihuantime)
+{
+    
 }
