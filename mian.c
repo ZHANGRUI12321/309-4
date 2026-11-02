@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "sort.h" 
+#include "add_new.h"
 
 typedef struct
 {
@@ -13,7 +14,11 @@ typedef struct
 
 int main()
 {
-    printBooksByBorrowCount();
+    printf("--- 测试添加功能 ---\n");
+    add_new_book(); // 测试添加
+
+    printf("\n--- 测试排序打印功能 ---\n");
+    printBooksByBorrowCount(); // 测试排序打印
     
     return 0;
 };
