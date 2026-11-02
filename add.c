@@ -17,7 +17,7 @@ int addbook(void)
     printf("????????????");
     scanf("%d", &count);
     FILE *fp = fopen("book.txt", "a");
-    fprintf(fp, "\n%s£¬%s£¬%d\n", name, leibie, count);
+    fprintf(fp, "\n%s,%s,%d\n", name, leibie, count);
     fclose(fp);
     printf("????????\n");
     return 0;
