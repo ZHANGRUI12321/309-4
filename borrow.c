@@ -104,10 +104,10 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间�
 }
 void updatebook(char *bookname,int change)   //change 为正的话代表借出去
 {
-    Book b;
+    Book b;int i,count=0;Book book[100];
     FILE *fp;
     char line[512];
-    fp=fopen("book.txt","r+");
+    fp=fopen("book.txt","r");
     if(fp==NULL)
     {
         printf("文件打开失败");
@@ -116,12 +116,18 @@ void updatebook(char *bookname,int change)   //change 为正的话代表借出�
     while(fgets(line,sizeof(line),fp)!=NULL)
     {
         sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
-          if(strcmp(b.name,bookname)==0)
+        book[i]=b;
+        if(strcmp(b.name,bookname)==0)
     {
         b.availableCopies-=change;
         b.borrowCount+=change;
+        book[i]=b;
+        
     }
+        i++;
+        count++;
     }
+    printf("获取了%d本图书信息\n",count);
   
 
 }
@@ -164,4 +170,11 @@ int lookcount(char *bookname)
         return b.borrowCount;
     }
     }
+}
+
+
+int main()
+{
+    updatebook("红楼梦",5);
+    return 0;
 }
