@@ -104,7 +104,7 @@ char *jisuan_guihuantime(char *borrowtime)                //规定归还时间�
 }
 void updatebook(char *bookname,int change)   //change 为正的话代表借出去
 {
-    Book b;int i,count=0;Book book[100];
+    Book b;int i=0,count=0;Book book[100];
     FILE *fp;
     char line[512];
     fp=fopen("book.txt","r");
@@ -120,14 +120,33 @@ void updatebook(char *bookname,int change)   //change 为正的话代表借出�
         if(strcmp(b.name,bookname)==0)
     {
         b.availableCopies-=change;
-        b.borrowCount+=change;
+        b.borrowCount+=1;
         book[i]=b;
         
     }
         i++;
         count++;
     }
-    printf("获取了%d本图书信息\n",count);
+    printf("获取了%d本图书信息,对其进行更新ing...\n",count);
+    fclose(fp);
+    FILE *fp2;
+    fp2=fopen("booktemp.txt","w");
+    if (fp2==NULL)
+    {
+        printf("文件打开失败");
+        return;
+    }
+    for(i=0;i<count;i++)
+    {
+        fprintf(fp2,"%s %s %s %d %d %d\n",book[i].id,book[i].name,book[i].leibie,book[i].totalCopies,book[i].availableCopies,book[i].borrowCount);
+    }
+    fclose(fp2);
+    remove("book.txt");
+    printf("已删除book.txt文件\n");
+    rename("booktemp.txt","book.txt");
+    printf("已重命名booktemp.txt文件为book.txt文件\n");
+    printf("book.txt文件已更新\n");
+    return;
   
 
 }
@@ -141,14 +160,17 @@ int lookname(char *bookname)
         printf("文件打开失败");
         return 0;
     }
-    if(fgets(line,sizeof(line),fp)!=NULL)
+    while(fgets(line,sizeof(line),fp)!=NULL)
     {
         sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
           if(strcmp(b.name,bookname)==0)
     {
+        fclose(fp);
         return 1;
     }
     }
+    fclose(fp);
+    return 0;
 }
 
 
@@ -162,19 +184,17 @@ int lookcount(char *bookname)
         printf("文件打开失败");
         return 0;
     }
-    if(fgets(line,sizeof(line),fp)!=NULL)
+    while(fgets(line,sizeof(line),fp)!=NULL)
     {
         sscanf(line,"%19s %99s %49s %d %d %d",b.id,b.name,b.leibie,&b.totalCopies,&b.availableCopies,&b.borrowCount);
           if(strcmp(b.name,bookname)==0)
     {
-        return b.borrowCount;
+        fclose(fp);
+        return b.availableCopies;
     }
     }
-}
-
-
-int main()
-{
-    updatebook("红楼梦",5);
+    fclose(fp);
     return 0;
 }
+
+
